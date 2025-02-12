@@ -4,15 +4,7 @@ import CheckoutPage from "../../src/pages/checkoutPage.js";
 import { faker } from '@faker-js/faker';
 import { allure } from 'allure-playwright';
 import CartPage from "../../src/pages/cartPage.js";
-
-const INVENTORY_ITEMS = [
-    'Sauce Labs Backpack',
-    'Sauce Labs Bike Light',
-    'Sauce Labs Bolt T-Shirt',
-    'Sauce Labs Fleece Jacket',
-    'Sauce Labs Onesie',
-    'Test.allTheThings() T-Shirt (Red)'
-];
+import { INVENTORY_ITEMS } from '../testData/inventoryData.js';
 
 test('TEST 4: Complete checkout process', async ({ page }) => {
 
