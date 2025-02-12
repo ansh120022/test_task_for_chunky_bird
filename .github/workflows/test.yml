@@ -35,6 +35,7 @@ jobs:
           mkdir -p allure-results
 
       - name: Run API tests
+        id: api_tests
         run: npm run test:api
         continue-on-error: true
 
@@ -42,13 +43,8 @@ jobs:
         run: sleep 2
 
       - name: Run UI tests
+        id: ui_tests
         run: npm run test:ui
-        continue-on-error: true
-
-      - name: Check Allure Results
-        run: |
-          echo "Contents of allure-results directory:"
-          ls -la allure-results/
         continue-on-error: true
 
       - name: Generate Allure Report
@@ -69,14 +65,14 @@ jobs:
 
       - name: Deploy to GitHub Pages
         if: always()
-        id: deployment
         uses: actions/deploy-pages@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-
-      - name: Add Report URL to Summary
+      - name: Check Test Status
         if: always()
         run: |
-          echo "# Test Report" >> $GITHUB_STEP_SUMMARY
-          echo "The Allure report is available at: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/" >> $GITHUB_STEP_SUMMARY
+          if [[ "${{ steps.api_tests.outcome }}" == "failure" ]] || [[ "${{ steps.ui_tests.outcome }}" == "failure" ]]; then
+            echo "::error::Tests failed! Check the report for details."
+            exit 1
+          fi
