@@ -2,7 +2,7 @@ name: Test Execution and Report
 
 on:
   workflow_dispatch:
-  push:
+  pull_request:
     branches:
       - main
 
