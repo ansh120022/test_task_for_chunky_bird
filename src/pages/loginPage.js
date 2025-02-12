@@ -1,5 +1,5 @@
 import BasePage from './basePage.js';
-import { LoginLocators as loginForm } from '../locators/LoginLocators.js'
+import { LoginLocators as loginForm } from '../locators/loginLocators.js'
 
 class LoginPage extends BasePage {
     constructor(page) {
