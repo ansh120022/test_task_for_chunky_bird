@@ -1,5 +1,5 @@
 import BasePage from './basePage.js';
-import { CartLocators as cart} from '../locators/CartLocators.js'
+import { CartLocators as cart} from '../locators/cartLocators.js'
 
 class CartPage extends BasePage {
     constructor(page) {
