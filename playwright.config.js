@@ -1,7 +1,7 @@
 import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-    testDir: './tests',
+    testDir: './tests/ui',
     timeout: 30000,
     expect: {
         timeout: 5000
@@ -20,10 +20,11 @@ export default defineConfig({
         viewport: { width: 1280, height: 720 },
         trace: 'retain-on-failure',
         screenshot: 'only-on-failure',
+        testIdAttribute: 'data-test'
     },
     projects: [
         {
-            name: 'chromium',
+            name: 'Sauce Labs E2E test',
             use: {
                 channel: 'chromium'
             },
