@@ -83,19 +83,27 @@ jobs:
           name: ui-results
           path: allure-results/ui
 
-      - name: Merge results
+      - name: Merge results and debug
         run: |
+          echo "Contents of API results directory:"
+          ls -la allure-results/api/
           
-          echo "Check before merge:"
-          ls -la allure-results/api/ || echo "No api results"
-          ls -la allure-results/ui/ || echo "No ui results"
+          echo "Contents of UI results directory:"
+          ls -la allure-results/ui/
           
+          rm -rf allure-results
           mkdir -p allure-results
-          cp -r allure-results/api/* allure-results/ || true
-          cp -r allure-results/ui/* allure-results/ || true
           
-          echo "After merge:"
+          echo "Copying API results..."
+          cp -rv allure-results/api/* allure-results/
+          
+          echo "Copying UI results..."
+          cp -rv allure-results/ui/* allure-results/
+          
+          echo "Final merged directory contents:"
           ls -la allure-results/
+          
+          rm -rf allure-results/api allure-results/ui
 
       - name: Generate Allure Report
         run: |
