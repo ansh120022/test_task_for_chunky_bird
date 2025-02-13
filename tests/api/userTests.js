@@ -57,22 +57,18 @@ describe('GoRest Users API Tests', () => {
         try {
             expect(users.length).toBeGreaterThan(0);
 
-            const stats = {
-                totalUsers: users.length,
-                activeUsers: users.filter(u => u.status === 'active').length,
-                genderDistribution: users.reduce((acc, user) => {
-                    acc[user.gender] = (acc[user.gender] || 0) + 1;
-                    return acc;
-                }, {})
-            };
+            await allure.attachment(
+                'API Response',
+                JSON.stringify(users, null, 2),
+                'application/json'
+            );
 
-            task.data = {
-                statistics: JSON.stringify(stats, null, 2),
-                fullResponse: JSON.stringify(users, null, 2)
-            };
         } catch (error) {
-            console.error('Empty response received');
-            task.data = { response: JSON.stringify(users, null, 2) };
+            await allure.attachment(
+                'Failed Response',
+                JSON.stringify(users, null, 2),
+                'application/json'
+            );
             throw error;
         }
     });
