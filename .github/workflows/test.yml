@@ -91,7 +91,7 @@ jobs:
           echo "Copying API results..."
           cp -r allure-results/api/* merged-results/ || echo "No API results to copy"
           
-          cho "Copying UI results..."
+          echo "Copying UI results..."
           cp -r allure-results/ui/* merged-results/ || echo "No UI results to copy"
           
           rm -rf allure-results
