@@ -93,6 +93,9 @@ jobs:
           mkdir -p allure-results
           cp -r allure-results/api/* allure-results/ || true
           cp -r allure-results/ui/* allure-results/ || true
+          
+          echo "After merge:"
+          ls -la allure-results/
 
       - name: Generate Allure Report
         run: |
