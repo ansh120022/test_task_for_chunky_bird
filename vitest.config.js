@@ -4,6 +4,8 @@ export default defineConfig({
     test: {
         globals: true,
         environment: 'node',
+        threads: true,
+        threadsNumber: 4,
         include: [
             'tests/api/**/*.js',
             'src/**/*.test.js',
