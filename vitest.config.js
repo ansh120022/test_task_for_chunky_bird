@@ -14,16 +14,16 @@ export default defineConfig({
         reporters: [
             "verbose",
             ["allure-vitest/reporter", {
-                resultsDir: "allure-results/api",
-                testSuiteFolder: "API Tests",
-                alwaysCreateTestCase: true,
-                categories: [
-                    {
-                        name: "API Tests",
-                        messageRegex: ".*",
-                        matchedStatuses: ["failed", "broken", "passed", "skipped"]
-                    }
-                ]
+                resultsDir: "allure-results",
+                categories: [{
+                    name: 'API Tests',
+                    messageRegex: '.*',
+                    matchedStatuses: ['passed', 'failed', 'skipped', 'broken']
+                }],
+                environmentInfo: {
+                    'Test Type': 'API Tests',
+                    'Framework': 'Vitest'
+                }
             }]
         ],
     }
