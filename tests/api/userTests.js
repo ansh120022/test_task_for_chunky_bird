@@ -11,7 +11,7 @@ describe('GoRest Users API Tests', () => {
 
         // First check - array not empty
         if (users.length === 0) {
-            task.fail('No users returned from API');
+            console.error('No users returned from API');
             throw new Error('API returned empty users array');
         }
 
@@ -23,7 +23,7 @@ describe('GoRest Users API Tests', () => {
                 totalUsers: users.length
             };
         } catch (schemaError) {
-            task.fail('Schema validation failed');
+            console.error('Schema validation failed');
             task.data = {
                 response: JSON.stringify(users, null, 2),
                 validationErrors: JSON.stringify(schemaError.errors, null, 2)
@@ -45,7 +45,7 @@ describe('GoRest Users API Tests', () => {
         try {
             expect(usersWithC.length).toBeGreaterThan(0);
         } catch (error) {
-            task.fail('No users with names starting with C found');
+            console.error('No users with names starting with C found');
             task.data = { allUsers: JSON.stringify(users, null, 2) };
             throw error;
         }
@@ -71,7 +71,7 @@ describe('GoRest Users API Tests', () => {
                 fullResponse: JSON.stringify(users, null, 2)
             };
         } catch (error) {
-            task.fail('Empty response received');
+            console.error('Empty response received');
             task.data = { response: JSON.stringify(users, null, 2) };
             throw error;
         }
@@ -86,7 +86,7 @@ describe('GoRest Users API Tests', () => {
                 .rejects
                 .toMatchObject({ status: 404 });
         } catch (error) {
-            task.fail('Unexpected error response');
+            console.error('Unexpected error response');
             task.data = { errorResponse: JSON.stringify(error, null, 2) };
             throw error;
         }
@@ -108,7 +108,7 @@ describe('GoRest Users API Tests', () => {
             const duplicates = users.filter((user, index) =>
                 users.findIndex(u => u.id === user.id) !== index
             );
-            task.fail('Duplicate IDs found');
+            console.error('Duplicate IDs found');
             task.data = {
                 duplicateEntries: JSON.stringify(duplicates, null, 2),
                 allUsers: JSON.stringify(users, null, 2)
@@ -124,7 +124,7 @@ describe('GoRest Users API Tests', () => {
         try {
             expect(users.length).toBeLessThanOrEqual(10);
         } catch (error) {
-            task.fail(`Response size (${users.length}) exceeds limit of 10`);
+            console.error(`Response size (${users.length}) exceeds limit of 10`);
             task.data = {
                 actualSize: users.length,
                 response: JSON.stringify(users, null, 2)

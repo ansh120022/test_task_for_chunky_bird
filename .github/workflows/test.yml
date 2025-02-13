@@ -30,12 +30,17 @@ jobs:
       - name: Run API tests
         run: npm run test:api
 
+      - name: Debug allure results directory
+        run: |
+          echo "Allure results directory content:"
+          ls -la allure-results/ || echo "No allure-results directory"
+
       - name: Upload API test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: api-results
-          path: allure-results/api
+          path: allure-results
 
   ui-tests:
     runs-on: ubuntu-latest
