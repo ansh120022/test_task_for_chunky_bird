@@ -14,7 +14,7 @@ export default defineConfig({
         reporters: [
             "verbose",
             ["allure-vitest/reporter", {
-                resultsDir: "allure-results",
+                resultsDir: "allure-results/api",
                 testSuiteFolder: "API Tests",
                 alwaysCreateTestCase: true,
                 categories: [
