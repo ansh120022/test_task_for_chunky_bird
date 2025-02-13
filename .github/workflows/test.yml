@@ -23,7 +23,9 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          npm install --save-dev allure-vitest
 
       - name: Run API tests
         run: npm run test:api
@@ -46,7 +48,9 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          npm install --save-dev allure-playwright
 
       - name: Install Playwright
         run: npx playwright install chromium --with-deps
@@ -82,8 +86,8 @@ jobs:
       - name: Merge results
         run: |
           mkdir -p allure-results
-          cp -r allure-results/api/* allure-results/
-          cp -r allure-results/ui/* allure-results/
+          cp -r allure-results/api/* allure-results/ || true
+          cp -r allure-results/ui/* allure-results/ || true
 
       - name: Generate Allure Report
         run: |
