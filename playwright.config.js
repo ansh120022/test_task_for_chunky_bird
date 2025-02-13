@@ -2,6 +2,7 @@ import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
     testDir: './tests/ui',
+    workers: 4,
     timeout: 30000,
     expect: {
         timeout: 5000
@@ -10,7 +11,7 @@ export default defineConfig({
         ['line'],
         ['allure-playwright', {
             detail: true,
-            outputFolder: 'allure-results',
+            outputFolder: 'allure-results/ui',
             suiteTitle: false
         }]
     ],

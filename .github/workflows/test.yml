@@ -12,9 +12,8 @@ permissions:
   id-token: write
 
 jobs:
-  test:
+  api-tests:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -24,55 +23,99 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
-        run: npm ci
-
-      - name: Install Playwright browsers
-        run: npx playwright install chromium --with-deps
-
-      - name: Clean previous results
         run: |
-          rm -rf allure-results || true
-          mkdir -p allure-results
+          npm ci
+          npm install --save-dev allure-vitest @vitest/runner vitest
 
       - name: Run API tests
-        id: api_tests
         run: npm run test:api
-        continue-on-error: true
 
-      - name: Delay between tests
-        run: sleep 2
+      - name: Debug allure results directory
+        run: |
+          echo "Allure results directory content:"
+          ls -la allure-results/ || echo "No allure-results directory"
+
+      - name: Upload API test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-results
+          path: allure-results
+
+  ui-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm install --save-dev allure-playwright
+
+      - name: Install Playwright
+        run: npx playwright install chromium --with-deps
 
       - name: Run UI tests
-        id: ui_tests
         run: npm run test:ui
-        continue-on-error: true
+
+      - name: Upload UI test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-results
+          path: allure-results/ui
+
+  generate-report:
+    needs: [api-tests, ui-tests]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Download API test results
+        uses: actions/download-artifact@v4
+        with:
+          name: api-results
+          path: allure-results/api
+
+      - name: Download UI test results
+        uses: actions/download-artifact@v4
+        with:
+          name: ui-results
+          path: allure-results/ui
+
+      - name: Merge results and debug
+        run: |
+          
+          mkdir -p merged-results
+          
+          echo "Copying API results..."
+          cp -r allure-results/api/* merged-results/ || echo "No API results to copy"
+          
+          echo "Copying UI results..."
+          cp -r allure-results/ui/* merged-results/ || echo "No UI results to copy"
+          
+          rm -rf allure-results
+          mv merged-results allure-results
 
       - name: Generate Allure Report
-        if: always()
         run: |
           npm install -g allure-commandline
           allure generate allure-results --clean -o allure-report
 
       - name: Setup Pages
-        if: always()
         uses: actions/configure-pages@v4
 
-      - name: Upload artifact
-        if: always()
+      - name: Upload report artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'allure-report'
+          path: allure-report
 
       - name: Deploy to GitHub Pages
-        if: always()
         uses: actions/deploy-pages@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Check Test Status
-        if: always()
-        run: |
-          if [[ "${{ steps.api_tests.outcome }}" == "failure" ]] || [[ "${{ steps.ui_tests.outcome }}" == "failure" ]]; then
-            echo "::error::Tests failed! Check the report for details."
-            exit 1
-          fi
