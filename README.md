@@ -18,6 +18,19 @@ This comprehensive test automation framework demonstrates advanced testing techn
 
 ## 🔍 Testing Strategies
 
+### 📋 Requirements Handling
+There is a functionality failing to meet the task requirements: no names starting with 'C':
+
+My real life approach would be:
+
+1) Verify Requirements - Check if requirements have recently changed, confirm with product owner
+
+If No Requirements Change: 
+  - Report bug to development team
+  - Temporary modify the test : Mark as expected failure, add skip/pending flag, link bug for tracking. 
+
+If requirements have changed, adjust the test accordingly. 
+
 ### 1. UI Tests
 
 - Multiple assertion types:
@@ -38,7 +51,7 @@ This comprehensive test automation framework demonstrates advanced testing techn
 - Failed test responses attached to report
 - Response validation
 - Model-based testing
-- Unit test for validation schema to ensure correct construction
+- Unit test for validation schema to ensure correct schema design
 
 ### 3. Performance
 
