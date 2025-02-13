@@ -25,7 +25,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-          npm install --save-dev allure-vitest
+          npm install --save-dev allure-vitest @vitest/runner vitest
 
       - name: Run API tests
         run: npm run test:api
@@ -85,6 +85,11 @@ jobs:
 
       - name: Merge results
         run: |
+          
+          echo "Check before merge:"
+          ls -la allure-results/api/ || echo "No api results"
+          ls -la allure-results/ui/ || echo "No ui results"
+          
           mkdir -p allure-results
           cp -r allure-results/api/* allure-results/ || true
           cp -r allure-results/ui/* allure-results/ || true
