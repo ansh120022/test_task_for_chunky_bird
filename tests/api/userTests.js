@@ -46,13 +46,22 @@ describe('GoRest Users API Tests', () => {
             expect(usersWithC.length).toBeGreaterThan(0);
         } catch (error) {
             console.error('No users with names starting with C found');
-            task.data = { allUsers: JSON.stringify(users, null, 2) };
+            await allure.attachment(
+                'Failed Response',
+                JSON.stringify(users, null, 2),
+                'application/json'
+            );
             throw error;
         }
     });
 
     test('TEST 3: print response in console', async ({ task }) => {
-        const users = await userApi.getUsers();
+
+        let users
+        await allure.step("Send getUsersRequest", async () => {
+            users = await userApi.getUsers();
+        });
+
 
         try {
             expect(users.length).toBeGreaterThan(0);
