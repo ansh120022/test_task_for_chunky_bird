@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: api-results
-          path: allure-results/
+          path: allure-results/api
 
   ui-tests:
     runs-on: ubuntu-latest
@@ -63,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ui-results
-          path: allure-results/
+          path: allure-results/ui
 
   generate-report:
     needs: [api-tests, ui-tests]

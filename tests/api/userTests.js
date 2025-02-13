@@ -7,7 +7,7 @@ import { Status } from 'allure-js-commons';
 describe('GoRest Users API Tests', () => {
     const userApi = new UserApi();
 
-    it('TEST 1: response is not empty and structure is valid', async () => {
+    it('TEST 1: response is not empty and structure is valid @allure.label.suite:API @allure.label.owner:API', async () => {
         await allure.step('Get users from API', async () => {
             const users = await userApi.getUsers();
             await allure.attachment('API Response', JSON.stringify(users, null, 2), 'application/json');
