@@ -6,6 +6,9 @@ export default defineConfig({
         environment: 'node',
         threads: true,
         threadsNumber: 4,
+        env: {
+            BASE_URL: 'https://gorest.co.in/public/v2'
+        },
         include: [
             'tests/api/**/*.js',
             'src/**/*.test.js',

@@ -1,8 +1,7 @@
-import { config } from '../../config/config.js';
 
 class BaseApi {
     constructor() {
-        this.baseURL = config.apiBaseUrl;
+        this.baseURL = import.meta.env.BASE_URL;
     }
 
     async handleError(response) {
